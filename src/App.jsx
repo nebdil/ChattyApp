@@ -5,9 +5,9 @@ import Message from './Message.jsx';
 
 class App extends Component {
   render() {
+    console.log("Rendering <App/>");
     return (
-      // <h1>Hello React :)</h1>
-      <body>
+      <span>
         <nav className="navbar">
           <a href="/" className="navbar-brand">Chatty</a>
         </nav>
@@ -15,7 +15,7 @@ class App extends Component {
           <Message />
         </MessageList>
         <ChatBar />
-      </body>
+      </span>
 
     );
   }

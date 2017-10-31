@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 class ChatBar extends Component {
   render() {
+    console.log("Rendering <App/>");
     return (
       <footer className="chatbar">
         <input className="chatbar-username" placeholder="Your Name (Optional)"/>
