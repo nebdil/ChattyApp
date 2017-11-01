@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx';
 import Message from './Message.jsx';
-const uuidv1 = require('uuid/v1');
 
 export default class App extends Component {
   constructor(props) {
@@ -42,7 +41,7 @@ export default class App extends Component {
   }
   _handleMessageChange(e){
     if (e.charCode == 13) {
-      const newMessage = {id: uuidv1(), username: "Bob", content: e.target.value}
+      const newMessage = {username: "Bob", content: e.target.value}
       this.socket.ws.send(JSON.stringify(newMessage))
     }
   }
