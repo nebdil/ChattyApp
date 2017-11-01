@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx';
 import Message from './Message.jsx';
+const uuidv1 = require('uuid/v1');
 
 export default class App extends Component {
   constructor(props) {
@@ -10,48 +11,39 @@ export default class App extends Component {
       currentUser: {
         name: 'Bob'
       },
-      messages: [
-        {
-          username: "Bob",
-          content: "Has anyone seen my marbles?",
-          id: 1
-        }, {
-          username: "Anonymous",
-          content: "No, I think you lost them. You lost your marbles Bob. You lost them for good.",
-          id: 2
-        }
-      ]
+      messages: []
     }
-    this._handleChildChange = this._handleChildChange.bind(this)
+    this.socket = {
+      ws: new WebSocket("ws://localhost:3001")
+    }
+
+    this._handleMessageChange = this._handleMessageChange.bind(this)
+    this.setState = this.setState.bind(this)
   }
 
   componentDidMount() {
-    console.log("componentDidMount <App />")
-    setTimeout(() => {
-      console.log("Simulating incoming message")
-      // Add a new message to the list of messages in the data store
-      const newMessage = {id: 3, username: "Michelle", content: "Hello there!"}
-      const messages = this.state.messages.concat(newMessage)
-      // Update the state of the app component.
-      // Calling setState will trigger a call to render() in App and all child components.
-      this.setState({messages: messages})
-    }, 3000)
+    this.socket.ws;
+    console.log('Connected to server')
+    this.socket.ws.onmessage = ev => {
+      var message = JSON.parse(ev.data)
+      console.log(message)
+      const messages = this.state.messages.concat(message)
+      this.setState({messages})
+    }
   }
-
   render() {
     return (<span>
       <nav className="navbar">
         <a href="/" className="navbar-brand">Chatty</a>
       </nav>
-      <MessageList messagesArr={this.state.messages}/>
-      <ChatBar currentUserName={this.state.currentUser.name} getMessage={this._handleChildChange}/>
+      <MessageList messagesArr={this.state.messages} />
+      <ChatBar currentUserName={this.state.currentUser.name} getMessage={this._handleMessageChange}/>
     </span>)
   }
-  _handleChildChange(e){
+  _handleMessageChange(e){
     if (e.charCode == 13) {
-      const newMessage = {id: this.state.messages.length + 1, username: "Bob", content: e.target.value}
-      const messages = this.state.messages.concat(newMessage)
-      this.setState({messages})
+      const newMessage = {id: uuidv1(), username: "Bob", content: e.target.value}
+      this.socket.ws.send(JSON.stringify(newMessage))
     }
   }
 }
