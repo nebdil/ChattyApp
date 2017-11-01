@@ -17,6 +17,7 @@ export default class App extends Component {
     }
 
     this._handleMessageChange = this._handleMessageChange.bind(this)
+    this._handleNameChange = this._handleNameChange.bind(this)
     this.setState = this.setState.bind(this)
   }
 
@@ -36,13 +37,16 @@ export default class App extends Component {
         <a href="/" className="navbar-brand">Chatty</a>
       </nav>
       <MessageList messagesArr={this.state.messages} />
-      <ChatBar currentUserName={this.state.currentUser.name} getMessage={this._handleMessageChange}/>
+      <ChatBar currentUserName={this.state.currentUser.name} getMessage={this._handleMessageChange} getUsername={this._handleNameChange}/>
     </span>)
   }
   _handleMessageChange(e){
     if (e.charCode == 13) {
-      const newMessage = {username: "Bob", content: e.target.value}
+      const newMessage = {username: this.state.currentUser.name, content: e.target.value}
       this.socket.ws.send(JSON.stringify(newMessage))
     }
+  }
+  _handleNameChange(e){
+    this.state.currentUser.name = e.target.value
   }
 }
