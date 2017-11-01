@@ -5,17 +5,17 @@ class Message extends Component {
     console.log("Rendering <App/>");
     return (
       <span>
-        <div className = "message" >
+        <div className = "message">
           <span className="message-username">
-            Anonymous1
+            {this.props.currentMessage.username}
           </span>
           <span className = "message-content" >
-            I won &#39;t be impressed with technology until I can download food.
+            {this.props.currentMessage.content}
           </span>
          </div>
-         <div className="message system">
+         {/* <div className="message system">
            Anonymous1 changed their name to nomnom.
-         </div>
+         </div> */}
        </span>
     );
   }

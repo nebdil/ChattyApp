@@ -1,14 +1,16 @@
 import React, {Component} from 'react';
 import Message from './Message.jsx';
 
-class MessageList extends Component {
+export default class MessageList extends Component {
   render() {
     console.log("Rendering <App/>");
+    const arr = this.props.messagesArr;
     return (
       <main className="messages">
-        <Message />
+        {arr.map(function(e) {
+          return <Message currentMessage={e} key={e.id}/>
+        })}
       </main>
     );
   }
 }
-export default MessageList;
