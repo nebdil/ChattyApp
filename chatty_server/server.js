@@ -24,6 +24,13 @@ wss.broadcast = function(data) {
 function handleMessage(message) {
   let msg = JSON.parse(message)
   msg.id = uuidv1();
-  let mssg = JSON.stringify(msg)
-  wss.broadcast(mssg);
+  if (msg.type == "postMessage"){
+    msg.type = 'incomingMessage';
+    let mssg = JSON.stringify(msg)
+    wss.broadcast(mssg);
+  } else if (msg.type == "postNotification"){
+    msg.type = 'incomingNotification';
+    let mssg = JSON.stringify(msg)
+    wss.broadcast(mssg);
+  }
 }

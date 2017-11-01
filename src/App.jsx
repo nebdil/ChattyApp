@@ -27,8 +27,14 @@ export default class App extends Component {
     this.socket.ws.onmessage = ev => {
       var message = JSON.parse(ev.data)
       console.log(message)
-      const messages = this.state.messages.concat(message)
-      this.setState({messages})
+      if (message.type == 'incomingMessage') {
+        const messages = this.state.messages.concat(message)
+        this.setState({messages})
+      } else if (message.type == "incomingNotification") {
+        const messages = this.state.messages.concat(message)
+        this.setState({messages})
+        console.log('in incomingNotification')
+      }
     }
   }
   render() {
@@ -36,17 +42,30 @@ export default class App extends Component {
       <nav className="navbar">
         <a href="/" className="navbar-brand">Chatty</a>
       </nav>
-      <MessageList messagesArr={this.state.messages} />
+      <MessageList messagesArr={this.state.messages}/>
+      {/* notificationChange={this._handleNotification} */}
       <ChatBar currentUserName={this.state.currentUser.name} getMessage={this._handleMessageChange} getUsername={this._handleNameChange}/>
     </span>)
   }
-  _handleMessageChange(e){
+  _handleMessageChange(e) {
     if (e.charCode == 13) {
-      const newMessage = {username: this.state.currentUser.name, content: e.target.value}
+      const newMessage = {
+        type: 'postMessage',
+        username: this.state.currentUser.name,
+        content: e.target.value
+      }
       this.socket.ws.send(JSON.stringify(newMessage))
     }
   }
-  _handleNameChange(e){
-    this.state.currentUser.name = e.target.value
+  _handleNameChange(e) {
+    if (e.charCode == 13) {
+      const newNotification = {
+        username: this.state.currentUser.name,
+        type: 'postNotification',
+        content: `${this.state.currentUser.name} changed their name to ${e.target.value}.`
+      }
+      this.socket.ws.send(JSON.stringify(newNotification))
+      this.state.currentUser.name = e.target.value
+    }
   }
 }

@@ -4,13 +4,15 @@ import Message from './Message.jsx';
 export default class MessageList extends Component {
   render() {
     console.log("Rendering <App/>");
-    const arr = this.props.messagesArr;
+    const messages = this.props.messagesArr;
     return (
-      <main className="messages">
-        {arr.map(function(e) {
-          return <Message currentMessage={e} key={e.id}/>
-        })}
-      </main>
+      <div>
+        <main className="messages">
+          {messages.map(function(e) {
+            return <Message currentMessage={e} key={e.id}/>
+          })}
+        </main>
+      </div>
     );
   }
 }
