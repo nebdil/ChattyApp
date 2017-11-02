@@ -1,14 +1,15 @@
+//Import react
 import React, {Component} from 'react';
 
-class ChatBar extends Component {
+//Make chatbar & send to parent
+export default class ChatBar extends Component {
   render() {
-    console.log("Rendering <App/>");
     const {currentUserName, getMessage, getUsername} = this.props;
     return (
       <footer className="chatbar">
         <input className="chatbar-username" placeholder="Your Name (Optional)" defaultValue = {currentUserName} onKeyPress= {getUsername}/>
         <input className="chatbar-message" placeholder="Type a message and hit ENTER" onKeyPress={getMessage} />
-      </footer>)
+      </footer>
+    )
   }
 }
-export default ChatBar;

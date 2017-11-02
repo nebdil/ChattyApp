@@ -1,3 +1,4 @@
+//bring every component in
 import React, {Component} from 'react';
 import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx';
@@ -9,23 +10,21 @@ export default class App extends Component {
     this.state = {
       currentUser: {
         name: '',
-        color: ''
+        color: '' //for the user's designated color
       },
       messages: [],
-      users: 0,
+      users: 0, //for counting how many people are online
     }
     this.socket = {
       ws: new WebSocket("ws://localhost:3001")
     }
-
+    //bind this' so that other components will know where to refer to
     this._handleMessageChange = this._handleMessageChange.bind(this)
     this._handleNameChange = this._handleNameChange.bind(this)
     this.setState = this.setState.bind(this)
   }
-
   componentDidMount() {
     this.socket.ws;
-    console.log('Connected to server')
     this.socket.ws.onmessage = ev => {
       var message = JSON.parse(ev.data)
       if (message.type == 'incomingMessage') {
@@ -39,21 +38,20 @@ export default class App extends Component {
       } else if (message.type == 'offline') {
         this.setState({users: message.size})
       } else if (message.type == 'color') {
-        console.log(message.color)
         this.setState({currentUser: {color: message.color}})
       }
     }
   }
   render() {
-
-    return (<span>
-      <nav className="navbar">
-        <a href="/" className="navbar-brand">Chatty</a>
-        <p className="navbar-count">{this.state.users} users online</p>
-      </nav>
-      <MessageList messagesArr={this.state.messages} />
-      <ChatBar currentUserName={this.state.currentUser.name} getMessage={this._handleMessageChange} getUsername={this._handleNameChange}/>
-    </span>)
+    return (
+      <div>
+        <nav className="navbar">
+          <a href="/" className="navbar-brand">Chatty</a>
+          <p className="navbar-count">{this.state.users} users online</p>
+        </nav>
+        <MessageList messagesArr={this.state.messages} />
+        <ChatBar currentUserName={this.state.currentUser.name} getMessage={this._handleMessageChange} getUsername={this._handleNameChange}/>
+    </div>)
   }
   _handleMessageChange(e) {
     if (e.charCode == 13) {

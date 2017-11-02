@@ -1,9 +1,10 @@
+//get react & each message
 import React, {Component} from 'react';
 import Message from './Message.jsx';
 
+//Make message list & send to parent
 export default class MessageList extends Component {
   render() {
-    console.log("Rendering <App/>");
     const messages = this.props.messagesArr;
     return (
       <div>
@@ -13,6 +14,6 @@ export default class MessageList extends Component {
           })}
         </main>
       </div>
-    );
+    )
   }
 }

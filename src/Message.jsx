@@ -1,25 +1,25 @@
+//bring react in
 import React, {Component} from 'react';
 
-class Message extends Component {
+//construct what messages are rendering && send out
+export default class Message extends Component {
   render() {
-    console.log("Rendering <App/>");
-    // console.log(this.props.colorOfUser)
-    if (this.props.currentMessage.type == 'incomingMessage') {
+    const {content, color, type, username} = this.props.currentMessage;
+    if (type == 'incomingMessage') {
       return (
-        <div className = "message">
-          <span className="message-username" style={{color: this.props.currentMessage.color}}>
-            {this.props.currentMessage.username || 'Anonymous'}
+        <div className="message">
+          <span className="message-username" style={{color}}>
+            {username || 'Anonymous'}
           </span>
-          <span className = "message-content" >
-            {this.props.currentMessage.content}
+          <span className="message-content" >
+            {content}
           </span>
          </div>
       )
-    } else if (this.props.currentMessage.type == 'incomingNotification'){
+    } else if (type == 'incomingNotification'){
       return (
-          <div className = "message system">{this.props.currentMessage.content}</div>
+          <div className="message system">{content}</div>
       )
     }
   }
 }
-export default Message;

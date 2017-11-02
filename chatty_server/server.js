@@ -15,10 +15,8 @@ wss.on('connection', (client) => {
   var color = {type: 'color', color: _getRandomColor()};
   var colorStr = JSON.stringify(color);
   client.send(colorStr);
-  
   var mssgSize = JSON.stringify(size);
   wss.broadcast(mssgSize);
-  console.log('Client connected');
   client.on('message', handleMessage);
   client.on('close', () => {
     var sizeClose = {size: wss.clients.size, type: 'offline'}
@@ -26,6 +24,7 @@ wss.on('connection', (client) => {
     wss.broadcast(mssgSizeClose)
   })
 });
+//how to broadcast
 wss.broadcast = function(data) {
   wss.clients.forEach(function(client) {
     client.send(data);
@@ -34,7 +33,6 @@ wss.broadcast = function(data) {
 function handleMessage(message) {
   let msg = JSON.parse(message)
   msg.id = uuidv1();
-  // console.log('msg.color: ' + msg.color)
   if (msg.type == "postMessage"){
     msg.type = 'incomingMessage';
     let mssg = JSON.stringify(msg)
@@ -45,12 +43,12 @@ function handleMessage(message) {
     wss.broadcast(mssg);
   }
 }
+//function to get a random color to assign to the user's message
 function _getRandomColor() {
   var letters = '0123456789ABCDEF';
   var color = '#';
   for (let i = 0; i < 6; i++) {
     color += letters[Math.floor(Math.random() * 16)];
   }
-  // console.log('color from in the function: ' + color)
   return color
 }
