@@ -12,22 +12,29 @@ const wss = new SocketServer({ server });
 
 wss.on('connection', (client) => {
   var size = {size: wss.clients.size, type: 'online'};
+  var color = {type: 'color', color: _getRandomColor()};
+  var colorStr = JSON.stringify(color);
+  client.send(colorStr);
+  
   var mssgSize = JSON.stringify(size);
   wss.broadcast(mssgSize);
   console.log('Client connected');
-  console.log(wss.clients.size);
   client.on('message', handleMessage);
-  client.on('close', () => wss.broadcast(mssgSize));
+  client.on('close', () => {
+    var sizeClose = {size: wss.clients.size, type: 'offline'}
+    var mssgSizeClose = JSON.stringify(sizeClose)
+    wss.broadcast(mssgSizeClose)
+  })
 });
 wss.broadcast = function(data) {
   wss.clients.forEach(function(client) {
     client.send(data);
-    console.log(data)
   });
 };
 function handleMessage(message) {
   let msg = JSON.parse(message)
   msg.id = uuidv1();
+  // console.log('msg.color: ' + msg.color)
   if (msg.type == "postMessage"){
     msg.type = 'incomingMessage';
     let mssg = JSON.stringify(msg)
@@ -37,4 +44,13 @@ function handleMessage(message) {
     let mssg = JSON.stringify(msg)
     wss.broadcast(mssg);
   }
+}
+function _getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  // console.log('color from in the function: ' + color)
+  return color
 }

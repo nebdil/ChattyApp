@@ -8,10 +8,11 @@ export default class App extends Component {
     super(props);
     this.state = {
       currentUser: {
-        name: 'Bob'
+        name: '',
+        color: ''
       },
       messages: [],
-      users: 0
+      users: 0,
     }
     this.socket = {
       ws: new WebSocket("ws://localhost:3001")
@@ -33,13 +34,14 @@ export default class App extends Component {
       } else if (message.type == "incomingNotification") {
         const messages = this.state.messages.concat(message)
         this.setState({messages})
-        console.log('in incomingNotification')
       } else if (message.type == 'online') {
         this.setState({users: message.size})
+      } else if (message.type == 'offline') {
+        this.setState({users: message.size})
+      } else if (message.type == 'color') {
+        console.log(message.color)
+        this.setState({currentUser: {color: message.color}})
       }
-    }
-    this.socket.ws.onclose = e => {
-      this.setState({users: e.data})
     }
   }
   render() {
@@ -49,8 +51,7 @@ export default class App extends Component {
         <a href="/" className="navbar-brand">Chatty</a>
         <p className="navbar-count">{this.state.users} users online</p>
       </nav>
-      <MessageList messagesArr={this.state.messages}/>
-      {/* notificationChange={this._handleNotification} */}
+      <MessageList messagesArr={this.state.messages} />
       <ChatBar currentUserName={this.state.currentUser.name} getMessage={this._handleMessageChange} getUsername={this._handleNameChange}/>
     </span>)
   }
@@ -59,6 +60,7 @@ export default class App extends Component {
       const newMessage = {
         type: 'postMessage',
         username: this.state.currentUser.name,
+        color: this.state.currentUser.color,
         content: e.target.value
       }
       this.socket.ws.send(JSON.stringify(newMessage))
@@ -69,18 +71,10 @@ export default class App extends Component {
       const newNotification = {
         username: this.state.currentUser.name,
         type: 'postNotification',
-        content: `${this.state.currentUser.name} changed their name to ${e.target.value}.`
+        content: `${this.state.currentUser.name || 'Anonymous'} changed their name to ${e.target.value}.`
       }
       this.socket.ws.send(JSON.stringify(newNotification))
       this.state.currentUser.name = e.target.value
     }
-  }
-  _getRandomColor() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
   }
 }

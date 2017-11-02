@@ -9,7 +9,7 @@ export default class MessageList extends Component {
       <div>
         <main className="messages">
           {messages.map(function(e) {
-            return <Message currentMessage={e} key={e.id}/>
+            return <Message currentMessage={e} key={e.id} />
           })}
         </main>
       </div>
