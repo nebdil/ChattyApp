@@ -27,9 +27,6 @@ export default class App extends Component {
     console.log('Connected to server')
     this.socket.ws.onmessage = ev => {
       var message = JSON.parse(ev.data)
-      this.setState({users: ev.data})
-      // console.log(ev.data)
-      // console.log(message)
       if (message.type == 'incomingMessage') {
         const messages = this.state.messages.concat(message)
         this.setState({messages})
@@ -37,10 +34,9 @@ export default class App extends Component {
         const messages = this.state.messages.concat(message)
         this.setState({messages})
         console.log('in incomingNotification')
+      } else if (message.type == 'online') {
+        this.setState({users: message.size})
       }
-    }
-    this.socket.ws.onopen = e => {
-      this.setState({users: e.data})
     }
     this.socket.ws.onclose = e => {
       this.setState({users: e.data})
@@ -78,5 +74,13 @@ export default class App extends Component {
       this.socket.ws.send(JSON.stringify(newNotification))
       this.state.currentUser.name = e.target.value
     }
+  }
+  _getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
   }
 }

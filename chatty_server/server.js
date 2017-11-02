@@ -11,11 +11,13 @@ const server = express()
 const wss = new SocketServer({ server });
 
 wss.on('connection', (client) => {
-  wss.broadcast(wss.clients.size)
+  var size = {size: wss.clients.size, type: 'online'};
+  var mssgSize = JSON.stringify(size);
+  wss.broadcast(mssgSize);
   console.log('Client connected');
   console.log(wss.clients.size);
   client.on('message', handleMessage);
-  client.on('close', () => wss.broadcast(wss.clients.size));
+  client.on('close', () => wss.broadcast(mssgSize));
 });
 wss.broadcast = function(data) {
   wss.clients.forEach(function(client) {
