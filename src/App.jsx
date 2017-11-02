@@ -10,7 +10,8 @@ export default class App extends Component {
       currentUser: {
         name: 'Bob'
       },
-      messages: []
+      messages: [],
+      users: 0
     }
     this.socket = {
       ws: new WebSocket("ws://localhost:3001")
@@ -26,7 +27,9 @@ export default class App extends Component {
     console.log('Connected to server')
     this.socket.ws.onmessage = ev => {
       var message = JSON.parse(ev.data)
-      console.log(message)
+      this.setState({users: ev.data})
+      // console.log(ev.data)
+      // console.log(message)
       if (message.type == 'incomingMessage') {
         const messages = this.state.messages.concat(message)
         this.setState({messages})
@@ -36,11 +39,19 @@ export default class App extends Component {
         console.log('in incomingNotification')
       }
     }
+    this.socket.ws.onopen = e => {
+      this.setState({users: e.data})
+    }
+    this.socket.ws.onclose = e => {
+      this.setState({users: e.data})
+    }
   }
   render() {
+
     return (<span>
       <nav className="navbar">
         <a href="/" className="navbar-brand">Chatty</a>
+        <p className="navbar-count">{this.state.users} users online</p>
       </nav>
       <MessageList messagesArr={this.state.messages}/>
       {/* notificationChange={this._handleNotification} */}
