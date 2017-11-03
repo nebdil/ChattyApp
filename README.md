@@ -1,8 +1,8 @@
-#CHATTY APP
+# CHATTY APP
 
 Chatty App is a web application that allows you to chat with other users. You can chat with them anonymously or you can select a username for yourself and change it. Your name will have its own color, so you can distinguish between your messages and others'. You can also see how many people are online at a moment.
 
-##GETTING STARTED
+## GETTING STARTED
 
 1. Open up your terminal and go to the project's folder.
 2. Install all the dependencies with the command `npm install`.
@@ -18,26 +18,26 @@ Chatty App is a web application that allows you to chat with other users. You ca
 ## Dependencies
 
 1. devDependencies for the project:
-⋅⋅* "babel-core": "6.23.1",
-⋅⋅* "babel-loader": "6.3.1",
-⋅⋅* "babel-preset-es2015": "6.22.0",
-⋅⋅* "babel-preset-react": "6.23.0",
-⋅⋅* "babel-preset-stage-0": "6.22.0",
-⋅⋅* "css-loader": "0.26.1",
-⋅⋅* "eslint": "3.15.0",
-⋅⋅* "eslint-plugin-react": "6.9.0",
-⋅⋅* "node-sass": "4.5.0",
-⋅⋅* "sass-loader": "6.0.0",
-⋅⋅* "sockjs-client": "^1.1.2",
-⋅⋅* "style-loader": "0.13.1",
-⋅⋅* "webpack": "2.2.1",
-⋅⋅* "webpack-dev-server": "2.3.0"
+* "babel-core": "6.23.1",
+* "babel-loader": "6.3.1",
+* "babel-preset-es2015": "6.22.0",
+* "babel-preset-react": "6.23.0",
+* "babel-preset-stage-0": "6.22.0",
+* "css-loader": "0.26.1",
+* "eslint": "3.15.0",
+* "eslint-plugin-react": "6.9.0",
+* "node-sass": "4.5.0",
+* "sass-loader": "6.0.0",
+* "sockjs-client": "^1.1.2",
+* "style-loader": "0.13.1",
+* "webpack": "2.2.1",
+* "webpack-dev-server": "2.3.0"
 
 2. Dependencies for the project:
-⋅⋅* "react": "15.4.2",
-⋅⋅* "react-dom": "15.4.2",
-⋅⋅* "ws": "3.2.0"
+* "react": "15.4.2",
+* "react-dom": "15.4.2",
+* "ws": "3.2.0"
 
 3. Optional dependencies:
-⋅⋅* "bufferutil": "^3.0.2",
-⋅⋅* "utf-8-validate": "^3.0.3"
+* "bufferutil": "^3.0.2",
+* "utf-8-validate": "^3.0.3"
