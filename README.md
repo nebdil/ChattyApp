@@ -12,8 +12,8 @@ Chatty App is a web application that allows you to chat with other users. You ca
 
 ### Screenshot
 
-["Example of two people chatting"](https://github.com/nebdil/react-simple-boilerplate/blob/master/docs/chatting.png?raw=true)
-["Changing the username"](https://github.com/nebdil/react-simple-boilerplate/blob/master/docs/changeName.png?raw=true)
+!["Example of two people chatting"](https://github.com/nebdil/react-simple-boilerplate/blob/master/docs/chatting.png?raw=true)
+!["Changing the username"](https://github.com/nebdil/react-simple-boilerplate/blob/master/docs/changeName.png?raw=true)
 
 ## Dependencies
 
